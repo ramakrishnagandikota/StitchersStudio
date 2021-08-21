@@ -1,0 +1,22 @@
+.slider {
+  width: 420px;
+  margin: 0px 50px 50px;
+}
+.slider .slick-slide {
+  background: #fff;
+  /* color: white; */
+  /* padding: 40px 0; */
+  font-size: 2.34vw;
+  /* font-family: "Arial", "Helvetica"; */
+  text-align: center;
+}
+.slider .slick-prev:before,
+.slider .slick-next:before {
+  color: #fff;
+}
+.slider .slick-dots {
+  bottom: -30px;
+}
+.slider .slick-slide:nth-child(odd) {
+  background: #fff;
+}

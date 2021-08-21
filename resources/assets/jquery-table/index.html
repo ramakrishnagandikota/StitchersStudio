@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Scripts -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="jquery.tabledit.js"></script>
+<script src="https://use.fontawesome.com/99ba050946.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div id="app" style="margin:150px auto">
+
+        <main class="py-4">
+            <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">jQuery Bootstable: Editable Bootstrap 4 Table Demo</div>
+<button id="add">Add New</button>
+                <div class="card-body">
+        <table class="table table-responsive-md table-sm table-bordered" id="example6">
+     <thead>
+      <tr>
+        <th>id</th>
+		<th>username</th>
+        <th>email</th>
+        <th>avatar </th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr>
+        <td>1</td>
+        <td>Defaultson</td>
+		<td>Defaultson</td>
+        <td>def@somemail.com</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        </main>
+    </div>
+</body>
+
+<script>
+    $(function() {
+$('#example6').Tabledit({
+    columns: {
+        identifier: [0, 'id'],
+        editable: [[1, 'username'], [2, 'email'], [3, 'avatar', '{"1": "Black Widow", "2": "Captain America", "3": "Iron Man"}']]
+    },
+    onDraw: function() {
+        console.log('onDraw()');
+    },
+    onSuccess: function(data, textStatus, jqXHR) {
+        console.log('onSuccess(data, textStatus, jqXHR)');
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+    },
+    onFail: function(jqXHR, textStatus, errorThrown) {
+        console.log('onFail(jqXHR, textStatus, errorThrown)');
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    },
+    onAlways: function() {
+        console.log('onAlways()');
+    },
+    onAjax: function(action, serialize) {
+	
+        console.log('onAjax(action, serialize)');
+        console.log(action);
+        console.log(serialize);
+    }
+});
+
+setTimeout(function(){ $(".tabledit-edit-button span").removeClass('glyphicon glyphicon-pencil').addClass('fa fa-pencil');
+$(".tabledit-delete-button span").removeClass('glyphicon glyphicon-trash').addClass('fa fa-trash') },2000);
+
+
+$("#add").click(function(){
+var dd = $("tr#1").clone().
+										  $("#tbody").append(dd);
+})
+
+    });
+
+</script>
+</html>

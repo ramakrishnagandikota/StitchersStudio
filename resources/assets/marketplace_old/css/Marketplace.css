@@ -1,0 +1,193 @@
+.nav-item{max-width: 155px;}
+.nav-tabs .slide{background-color: #0d665c;}
+/* The container */
+.container {
+display: block;
+position: relative;
+padding-left: 35px;
+margin-bottom: 10px;
+cursor: pointer;
+font-size: 14px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+position: absolute;
+top: 2px;
+left: 0;
+height: 17px;
+width: 17px;
+border: .6px solid #392f5a;
+border-radius: 2px;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+background-color: #392f5a;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 6px;
+    top: 3px;
+    width: 4px;
+    height: 7px;
+    border: solid white;
+    border-width: 0px 2px 2px 0px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.dropdown-menu{ padding-right: 24px;
+border: none;
+box-shadow: 0px 0px 2px 0px #ff9100;
+position: absolute;
+transform: translate3d(84px, 34px, 0px);
+}
+#marketplace-navbar {margin-bottom: 25px;}
+.dropdown-menu li{margin-bottom: 6px;}
+.dropdown-menu li a:hover{color: grey;}
+.theme-heading {
+color: #392f5a !important;
+}
+.page-header-title .theme-btn{border-radius: 2px;}
+.nav-tabs{box-shadow:0px 4px 4px 1px #3ab7a91f;background: white;}
+.md-tabs .nav-link {
+    border: none;
+    color: #0d665c;
+}
+.nav-item .active{color:#0d665c!important;font-weight: 500;}
+.user-content h4 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #0d665c;
+}
+.user-content a:hover{text-decoration: underline;}
+.ti-location-pin {
+    color: #0d665c;
+    margin-right: 4px;
+}
+.main-body .page-wrapper {
+    padding: .3rem;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s;
+}
+h1,h2,h3,h4,h5,h6,p,span,table td{color: #868e96;}
+.faq-progress .progress .faq-bar1, .faq-progress .progress .faq-bar2, .faq-progress .progress .faq-bar3, .faq-progress .progress .faq-bar4, .faq-progress .progress .faq-bar5 {
+    height: 6px;
+    border-radius: 4px;
+    position: relative;
+    top: 0;
+}
+.faq-progress {
+    background-color: grey;
+    border-radius: 6px;
+}
+.tab-pane p{line-height: 2!important;font-size: 14px;}
+#filters-for-search {
+    width: 280px;
+    float: right!important;
+    position: fixed;
+    right: 0!important;
+    left: unset;
+    top: 0px;
+    height: 100vh;
+    background: white;
+    box-shadow: 0 2px 10px -1px rgba(69, 90, 100, 0.3)
+}
+.Profession .container,.skills-mutliSelect .container,.ratings-mutliSelect .container{padding-top: 0px;}
+.checkmark{border: .8px solid #0d665c;}
+.container input:checked ~ .checkmark {
+    background-color: #0d665c
+}
+.nav-tabs .slide {
+    width: 90%;
+    margin-left: 5%;
+}
+.user-box{box-shadow: none;}
+.image-upload {
+ position: relative!important;
+    left: unset;
+}
+.nav-right li .active{border-bottom: 1px solid #0d665c;color: #0d665c;font-weight: 500;}
+.header-navbar .navbar-wrapper .navbar-container .header-notification .profile-notification{width: 14em;color: #131212!important;}
+.header-navbar .navbar-wrapper .navbar-container .header-notification .profile-notification::before{border: none!important;}
+.header-notification span {color:#131212!important;}
+.list-group-item {
+    position: relative;
+    display: block;
+    /* padding: .45rem 1.25rem; */
+    padding: .75rem .25rem;
+    margin-bottom: -1px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #0d665b;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+a:focus, a:hover {
+    text-decoration: none;
+    color: #0d665b;
+}
+.custom-control-label::before {
+    border: .8px solid #0d665c!important;
+    background-color: transparent;
+}
+.img-thumbnail{border: none }
+.header-navbar .navbar-wrapper .navbar-container .badge{color: white!important;}
+.social-msg a:hover span, .social-msg a:hover i{color: #0d665c!important;}
+.post-new-footer .icofont:hover{color: #0d665c!important;}
+/* .img-overlay {
+    height: 92%;
+    width: 92%;
+    top: 8px!important;
+} */
+#button-addon1{font-size:12px;padding: 6px 19px;}
+.skills-list li{display: inline-block;}
+.theme-txt{color: #0d665c;}
+.nav-right li a:hover{color: #0d665c!important;}
+#profile-img {
+    width: auto;
+    height: 140px!important;
+    border-radius: 6px;
+}
+#profile-img-main {
+    width: auto;
+    height: 140px!important;
+    border-radius: 6px;
+}
+.profile-upload {
+    position: absolute;
+    right: 52px;
+    top: 20px;
+}

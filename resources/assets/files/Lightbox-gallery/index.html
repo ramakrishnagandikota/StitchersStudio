@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1, maximum-scale=1.0, user-scalable=no">
+    <script src="spotlight.bundle.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+
+    <p class="spotlight-group">
+        <b>Anchors &amp; Images</b>
+        <a class="spotlight" href="../assets/images/user-card/Marsha's-Lacy-Tee.jpg" data-description="">
+            <img src="../assets/images/user-card/Marsha's-Lacy-Tee.jpg" alt="">
+        </a>
+        <a class="spotlight" href="../assets/images/user-card/Swing-Coat-P-Front.jpg">
+            <img src="../assets/images/user-card/Swing-Coat-P-Front.jpg">
+        </a>
+        <a class="spotlight" href="../assets/images/user-card/Off-the-Shoulder Ruffle Top.jpg">
+            <img src="../assets/images/user-card/Off-the-Shoulder Ruffle Top.jpg">
+        </a>
+        <a class="spotlight" href="../assets/images/user-card/Emily's Sweater.jpg">
+            <img src="../assets/images/user-card/Off-the-Shoulder Ruffle Top.jpg">
+        </a>
+        <a class="spotlight" href="../assets/images/user-card/The Boyfriend Sweater.jpg">
+            <img src="../assets/images/user-card/The Boyfriend Sweater.jpg">
+        </a>
+    </p>   
+    <script>
+
+        const checkboxes = document.getElementsByTagName("input");
+
+        const gallery = [{
+
+            title: "Image 1",
+            description: "This is a description.",
+            src: "gallery/london-1758181.jpg"
+        },{
+            title: "Image 2",
+            description: "This is a description.",
+            src: "gallery/sea-1975403.jpg"
+        },{
+            title: "Image 3",
+            description: "This is a description.",
+            src: "gallery/newport-beach-2089906.jpg"
+        }];
+
+        window.showGallery = function(index){
+
+            Spotlight.show(gallery, {
+
+                index: index,
+                theme: "dark",
+                animation:  [
+                    checkboxes[0].checked && checkboxes[0].value,
+                    checkboxes[1].checked && checkboxes[1].value,
+                    checkboxes[2].checked && checkboxes[2].value,
+                    checkboxes[3].checked && checkboxes[3].value
+                ]
+            });
+        };
+
+    </script>
+</body>
+</html>

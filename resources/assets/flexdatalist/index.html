@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery Flexdatalist Examples</title>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+<link href="jquery.flexdatalist.css" rel="stylesheet" type="text/css">
+<style>
+body { font-family:'Open Sans'; background-color:#fafafa;}
+.container { margin:150px auto 30px auto;}
+h2 { margin:20px auto;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>jQuery Flexdatalist Examples</h1>
+<h2>Basic Demo</h2>
+<p class="lead">Use local data from <code>datalist</code> tag.</p>
+<input type='text'
+       placeholder='Front-End Dev Skills'
+       class='flexdatalist form-control'
+       data-min-length='1'
+       list='skills'
+       name='skill'>
+       <datalist id="skills"></datalist>
+
+</div>
+<script src="http://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="jquery.flexdatalist.js"></script>
+<script>
+var data = '';
+for(var i=0;i<200;i+=0.25){
+	data+='<option value="'+i+'">'+i+'</option>';
+}
+	$("#skills").html(data);
+</script>
+</body>
+</html>

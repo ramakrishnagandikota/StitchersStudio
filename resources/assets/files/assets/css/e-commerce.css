@@ -1,0 +1,117 @@
+.welcome-knitfit,.call-us{padding-left: 5px!important;padding-right: 10px!important;margin-top: 3px;}
+.media-body h5{margin-left: 10px;margin-top: 5px;}
+.view-cart,.checkout{padding: 3px 20px 3px 20px!important;border-radius: 2px;}
+.show-account-dropdown {
+        background: #fff;
+        -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        border: none;
+        opacity: 1;
+        position: absolute;
+        left: auto;
+        right: -15px;
+        visibility: visible;
+        overflow: visible;
+        width: 15rem;
+        padding: 15px 0;
+        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
+    }
+    .dropdown-primary .dropdown-menu a:hover, .dropdown-split-primary .dropdown-menu a:hover{color: #0d665c;}
+    .shopping-menu{padding: 0 10px!important;}
+    .shopping-menu li{padding: 0 16px!important;}
+    .container{padding-top: 0px;}
+    .header-navbar .navbar-wrapper .navbar-container .header-notification .show-notification li img, .header-navbar .navbar-wrapper .navbar-container .header-notification .profile-notification li img
+    {width: auto;height: 70px;}
+    .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+        background-color: #0d665c;
+    }
+    .list-group-item{border: none;}
+    .shopping-cart li{line-height:2.2!important;}
+    .product-filter-content{font-size: 14px;color: #878787;}
+    .card-bg{-webkit-box-shadow: 0 2px 10px -1px rgba(69, 90, 100, 0.3);box-shadow: 0 2px 10px -1px rgba(69, 90, 100, 0.3);background-color: #ffffff;padding: 15px;}
+    .table td {
+        padding: .75rem 0.75rem;
+    }
+
+    .shopping-cart li{padding: .4em 20px!important;}
+    a>u{color:#0d665c}
+    .mytable th,td{padding: 10px;font-size: 16px;}
+    .mytable td{font-size: 14px;}
+    .fa-trash{color:#ff5252}
+    .min-height-heading{min-height: 50px;font-size: 14px;color: #0d665b;}
+    .product-box:hover a {
+        opacity: 0.5;
+    }
+    .product-box:hover .editable-items{opacity: 1;}
+
+    
+    /* Styling for Custome Dropdown optionlist on Shop-PatternPage */
+    .custom-select {
+        position: relative;
+        border: none;
+      }
+      .select-items div:hover, .same-as-selected {
+        background-color:#ececec!important;
+    }
+      .custom-select select {
+        display: none; /*hide original SELECT element:*/
+      }
+      
+      .select-selected {
+        background-color: transparent;
+        color: #0d665c!important;
+        border: 1px solid #0d665c!important;
+      }
+      
+      /*style the arrow inside the select element:*/
+      .select-selected:after {
+        position: absolute;
+        content: "";
+        top: 7px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-color: #fff transparent transparent transparent;
+        color:#0d665c;
+      }
+      
+      /*point the arrow upwards when the select box is open (active):*/
+      .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #fff transparent;
+        top: 7px;
+      }
+      
+      /*style the items (options), including the selected item:*/
+      .select-items div,.select-selected {
+        color: #0d665c;
+        padding: 7px 16px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 3px;
+      }
+  
+      
+      /*style items (options):*/
+      .select-items {
+        position: absolute;
+        background-color: #ffffff;
+        color:#0d665c;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+      }
+      
+      /*hide the items when the select box is closed:*/
+      .select-hide {
+        display: none;
+      }
+      
+      .select-items div:hover, .same-as-selected {
+        background-color: #ececec!important;
+      }
+      
