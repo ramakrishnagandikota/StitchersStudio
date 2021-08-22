@@ -55,6 +55,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapKnitterRoutes();
 		
 		$this->mapTestRoutes();
+		
+		$this->mapAdminNewRoutes();
     }
 
     /**
@@ -90,6 +92,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::namespace($this->namespace)
              ->group(base_path('routes/admin.php'));
+    }
+	
+	protected function mapAdminNewRoutes()
+    {
+        Route::namespace($this->namespace)
+             ->group(base_path('routes/admin_new.php'));
     }
 
 	protected function mapDesignerRoutes()

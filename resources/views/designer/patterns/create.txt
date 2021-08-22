@@ -1,0 +1,30 @@
+<div class="col-lg-2 m-b-10">
+    <div class="img-hover" style="background-image: url(../../files/assets/images/user-card/The-Boyfriend-Sweater.jpg);
+background-size: cover;
+height: 220px;">
+        <div class="editable-items">
+            <i class="fa fa-star" data-toggle="modal" data-dismiss="modal" data-target="#delete-Modal"></i>
+            <i class="fa fa-trash" data-toggle="modal" data-dismiss="modal" data-target="#delete-Modal"></i>
+        </div>
+    </div>
+</div>
+<div class="col-lg-2 m-b-10">
+    <div class="img-hover" style="background-image: url(../../files/assets/images/user-card/Off-the-Shoulder-Ruffle-Top.jpg);
+background-size: cover;
+height: 220px;">
+        <div class="editable-items">
+            <i class="fa fa-star-o" data-toggle="modal" data-dismiss="modal" data-target="#delete-Modal"></i>
+            <i class="fa fa-trash" data-toggle="modal" data-dismiss="modal" data-target="#delete-Modal"></i>
+        </div>
+    </div>
+</div>
+<div class="col-lg-2 m-b-10">
+    <div class="img-hover" style="background-image: url(../../files/assets/images/user-card/Marshas-Lacy-Tee.jpg);
+background-size: cover;
+height: 220px;">
+        <div class="editable-items">
+            <i class="fa fa-star-o" data-toggle="modal" data-dismiss="modal" data-target="#delete-Modal"></i>
+            <i class="fa fa-trash" data-toggle="modal" data-dismiss="modal" data-target="#delete-Modal"></i>
+        </div>
+    </div>
+</div>

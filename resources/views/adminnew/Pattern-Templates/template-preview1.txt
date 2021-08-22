@@ -1,0 +1,302 @@
+<?php $inputs1 = array(); $inputs2 = array(); ?>
+@if($measurements->count() > 0)
+    @foreach($measurements as $meas)
+        @php
+            $measurementvalues = App\Models\Patterns\MeasurementValues::where('measurement_profile_id',$measurement_id)->where('measurement_variable_id',$meas->id)->first();
+            $inp = strtolower($meas->variable_name);
+            $inputs1[] = str_replace(' ','_',$inp);
+            $inputs2[] = $measurementvalues->measurement_value;
+        @endphp
+    @endforeach
+@endif
+<?php
+if(count($inputs1) == count($inputs2)) {
+    $assArray = array();
+    for($i=0;$i<count($inputs1);$i++) {
+        $assArray[$inputs1[$i]] = $inputs2[$i];
+    }
+}
+?>
+<!-- {{ print_r($assArray) }} -->
+
+<!------------------------------------------------------------------>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <h5 class="p-10 text-center">
+            {{ $template->template_name }}
+        </h5>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="row theme-row m-b-10">
+        <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection1-preview">
+            <h5 class="card-header-text">Description</h5>
+            <i class="fa fa-caret-down pull-right micro-icons"></i>
+        </div>
+    </div>
+    <div class="card-block collapse show" id="PTsection1-preview">
+        <div class="col-lg-12">
+            {!! $template->description ?? 'No description to show' !!}
+        </div>
+    </div>
+</div>
+
+@if($template->yarnDetails()->count() > 0)
+<div class="clearfix"></div>
+<div class="col-md-12">
+    <div class="row theme-row m-b-10">
+        <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection2-preview">
+            <h5 class="card-header-text">Yarn Url's</h5>
+            <i class="fa fa-caret-down pull-right micro-icons"></i>
+        </div>
+    </div>
+    <div class="card-block collapse show" id="PTsection2-preview">
+        <div class="col-lg-12">
+            <?php $link=1; ?>
+            @foreach($template->yarnDetails as $yarn)
+                <p>Url {{ $link }} : <a href="{{ $yarn->yarn_content }}" data-toggle="tooltip" data-placement="right" title="Click to open" target="_blank">{{ $yarn->yarn_content }}</a></p>
+                <?php $link++; ?>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
+<!--
+<div class="clearfix"></div>
+<div class="col-md-12">
+    <div class="row theme-row m-b-10">
+        <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection3-preview">
+            <h5 class="card-header-text">Techniques</h5>
+            <i class="fa fa-caret-down pull-right micro-icons"></i>
+        </div>
+    </div>
+    <div class="card-block collapse show" id="PTsection3-preview">
+        <div class="col-lg-12">
+            {!! $template->techniques ?? 'No techniques to show' !!}
+        </div>
+    </div>
+</div>-->
+<div class="clearfix"></div>
+@if($template->getAllSections()->count() > 0)
+    @foreach($template->getAllSections as $sections)
+        <div class="col-md-12">
+            <div class="row theme-row m-b-10">
+                <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection3{{$sections->id}}-preview">
+                    <h5 class="card-header-text">{{ $sections->section_name }}</h5>
+                    <i class="fa fa-caret-down pull-right micro-icons"></i>
+                </div>
+            </div>
+            <div class="card-block collapse show" id="PTsection3{{$sections->id}}-preview">
+                @if($sections->snippets()->count() > 0)
+                    @foreach($sections->snippets as $snippets)
+                        <!-- snippet is empty -->
+                        @if($snippets->is_empty == 1)
+                            <div class="col-md-12">
+                            {!! $snippets->snippet_description !!}
+                            </div>
+                        @endif
+                        <!-- snippet is empty -->
+<!-- snippet has concatinate -->
+                        @if($snippets->is_concatinate == 1)
+                            @php
+
+                                $baseInstruction = '[[PART-1]][[INPUT_VARIABLE]][[PART-2]]';
+$measurement = App\Models\Patterns\MeasurementVariables::where('id',$snippets->input_variable)->first();
+$mvalue = \App\Models\Patterns\MeasurementValues::where('measurement_profile_id',$measurement_id)->where('measurement_variable_id',$measurement->id)->first();
+$INPUT_VARIABLE = str_replace(' ','_',strtoupper($measurement->variable_name));
+$output1 = '[[INPUT_VARIABLE]]';
+$output2 = '[['.$INPUT_VARIABLE.']]';
+$output3 = $mvalue->measurement_value;
+                            @endphp
+                            @if($snippets->instructions()->count() > 0)
+                                <?php $pp = 1; ?>
+                                @foreach($snippets->instructions as $inst)
+                                    <?php
+                                        $instruction = $inst->description;
+                                        $var1 = '[[PART-'.$pp.']]';
+                                        $baseInstruction = str_replace($var1,$inst->description,$baseInstruction);
+                                        $baseInstruction = str_replace($output1,$output2,$baseInstruction);
+                                        $baseInstruction = str_replace($output2,$output3,$baseInstruction);
+                                    ?>
+                                <?php $pp++; ?>
+                                @endforeach
+                            @endif
+                            <div class="col-md-12">
+                                {!! $baseInstruction !!}
+                            </div>
+
+
+                        @endif
+<!-- snippet has concatinate -->
+
+                        @if($snippets->function_id != 0)
+@php
+    $functions = App\Models\Patterns\Functions::where('id',$snippets->function_id)->first();
+    $outputs = array('[[NO_OF_STITCHES_TO_CAST_ON]]','[[NO_OF_STITCHES_TO_CAST_ON_BACK]]','[[NO_OF_STITCHES_TO_CAST_ON_FRONT]]',"[[SIDE_MARKER]]",'[[SIDE_MARKER_FRONT]]',"[[SIDE_MARKER_1]]",'[[SIDE_MARKER_2]]','[[PRINCESS_DART_FRONT_2_PIECES]]','[[DECREASE_EVERY_N_ROWS_WAIST]]','[[NO_OF_TIMES_TO_DECREASE_WAIST]]','[[INCREASE_EVERY_N_ROWS_WAIST]]','[[NO_OF_TIMES_TO_INCREASE_TO_WAIST]]',"[[PRINCESS_DART]]",'[[SIDE_MARKER]]','[[PRINCESS_DART_FRONT_1]]','[[PRINCESS_DART_FRONT_2]]','[[PRINCESS_DART_BACK_1]]','[[PRINCESS_DART_BACK_2]]','[[INCREASE_EVERY_N_ROWS_BUST]]','[[NO_OF_TIMES_TO_INCREASE_BUST]]','[[DECREASE_EVERY_N_ROWS_BUST]]','[[NO_OF_TIMES_TO_DECREASE_BUST]]','[[SHOULDER_BIND_OFF_2]]','[[SHOULDER_BIND_OFF_3]]','[[SHOULDER_BIND_OFF_1]]','[[NO_OF_STITCHES_TO_CAST_ON_FOR_SLEEVE]]','[[NO_OF_ROWS_BETWEEN_INCREASES_AT FOREARM]]','[[NO_OF_TIMES_TO_INCREASE_AT_FOREARM]]','[[NO_OF_ROWS_BETWEEN_INCREASES_AT_UPPER_ARM]]','[[NO_OF_TIMES_TO_INCREASE_AT_UPPER_ARM]]','[[NO_OF_SLEEVE_STITCHES_AT_UPPER_ARM]]','[[NO_OF_STITCHES_FOR_FIRST_DECREASE_AT_ARMHOLE]]','[[NO_OF_STITCHES_FOR_SECOND_DECREASE_AT_ARMHOLE]]','[[NO_OF_STITCHES_FOR_THIRD_DECREASE_AT_ARMHOLE]]','[[NO_OF_STITCHES_FOR_4TH_DECREASE_AT_ARMHOLE]]','[[NO_OF_TIMES_TO_DECREASE_1_STITCH_AT_EACH_END]]','[[NO_OF_STITCHES_FOR_THIRD_DECREASE_AT_ARMHOLE]]','[[NO_OF_STITCHES_FOR_4TH_DECREASE_AT_ARMHOLE]]','[[NO_OF_TIMES_TO_DECREASE_1_STITCH_AT_EACH_END]]','[[NO_OF_ROWS_USED]]','[[NO_OF_ROWS_TO_KNIT_STRAIGHT]]','[[DEC_1_STITCH_EVERY_OTHER_ROW_X_TIMES]]','[[DEC_2_STITCH_EVERY_OTHER_ROW_X_TIMES]]','[[DEC_4_STITCH_EVERY_OTHER_ROW_X_TIMES]]','[[BO_REMAINING_1]]','[[BO_REMAINING_2]]','[[BO_REMAINING_3]]');
+
+    $outputs1 = array('NO_OF_STITCHES_TO_CAST_ON','NO_OF_STITCHES_TO_CAST_ON_BACK','NO_OF_STITCHES_TO_CAST_ON_FRONT',"SIDE_MARKER",'SIDE_MARKER_FRONT',"SIDE_MARKER_1",'SIDE_MARKER_2','PRINCESS_DART_FRONT_2_PIECES','DECREASE_EVERY_N_ROWS_WAIST','NO_OF_TIMES_TO_DECREASE_WAIST','INCREASE_EVERY_N_ROWS_WAIST','NO_OF_TIMES_TO_INCREASE_TO_WAIST',"PRINCESS_DART",'SIDE_MARKER','PRINCESS_DART_FRONT_1','PRINCESS_DART_FRONT_2','PRINCESS_DART_BACK_1','PRINCESS_DART_BACK_2','INCREASE_EVERY_N_ROWS_BUST','NO_OF_TIMES_TO_INCREASE_BUST','DECREASE_EVERY_N_ROWS_BUST','NO_OF_TIMES_TO_DECREASE_BUST','SHOULDER_BIND_OFF_1','SHOULDER_BIND_OFF_2','SHOULDER_BIND_OFF_3','NO_OF_STITCHES_TO_CAST_ON_FOR_SLEEVE','NO_OF_ROWS_BETWEEN_INCREASES_AT FOREARM','NO_OF_TIMES_TO_INCREASE_AT_FOREARM','NO_OF_ROWS_BETWEEN_INCREASES_AT_UPPER_ARM','NO_OF_TIMES_TO_INCREASE_AT_UPPER_ARM','NO_OF_SLEEVE_STITCHES_AT_UPPER_ARM','NO_OF_STITCHES_FOR_FIRST_DECREASE_AT_ARMHOLE','NO_OF_STITCHES_FOR_SECOND_DECREASE_AT_ARMHOLE','NO_OF_STITCHES_FOR_THIRD_DECREASE_AT_ARMHOLE','NO_OF_STITCHES_FOR_4TH_DECREASE_AT_ARMHOLE','NO_OF_TIMES_TO_DECREASE_1_STITCH_AT_EACH_END','NO_OF_STITCHES_FOR_THIRD_DECREASE_AT_ARMHOLE','NO_OF_STITCHES_FOR_4TH_DECREASE_AT_ARMHOLE','NO_OF_TIMES_TO_DECREASE_1_STITCH_AT_EACH_END','NO_OF_ROWS_USED','NO_OF_ROWS_TO_KNIT_STRAIGHT','DEC_1_STITCH_EVERY_OTHER_ROW_X_TIMES','DEC_2_STITCH_EVERY_OTHER_ROW_X_TIMES','DEC_4_STITCH_EVERY_OTHER_ROW_X_TIMES','BO_REMAINING_1','BO_REMAINING_2','BO_REMAINING_3');
+
+
+
+        if($functions->prgm_name == 'cast_on_1'){
+            $functionName = cast_on_1($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'cast_on_2_front'){
+            $functionName = cast_on_2_front($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'cast_on_2_back'){
+            $functionName = cast_on_2_back($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'cast_on_3_front'){
+            $functionName = cast_on_3_front($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'cast_on_3_back'){
+            $functionName = cast_on_3_back($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_side_markers_1'){
+            $functionName = place_markers_side_markers_1($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_side_markers_2'){
+            $functionName = place_markers_side_markers_2($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_princes_dart_1'){
+            $functionName = place_markers_princes_dart_1($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_princes_dart_2_front'){
+            $functionName = place_markers_princes_dart_2_front($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_princes_dart_2_back'){
+            $functionName = place_markers_princes_dart_2_back($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_princes_dart_3'){
+            $functionName = place_markers_princes_dart_3($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_princes_dart_4_front'){
+            $functionName = place_markers_princes_dart_4_front($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'place_markers_princes_dart_4_back'){
+            $functionName = place_markers_princes_dart_4_back($assArray, $snippets->factor_value, $snippets->modifier_value);
+        }else if($functions->prgm_name == 'decrease_to_waist_1'){
+            $functionName = decrease_to_waist_1($assArray, $snippets->factor_value);
+        }else if($functions->prgm_name == 'decrease_to_waist_2_front'){
+            $functionName = decrease_to_waist_2_front($assArray, $snippets->factor_value);
+        }else if($functions->prgm_name == 'decrease_to_waist_2_back'){
+            $functionName = decrease_to_waist_2_back($assArray, $snippets->factor_value);
+        }else if($functions->prgm_name == 'decrease_to_waist_3'){
+            $functionName = decrease_to_waist_3($assArray, $snippets->factor_value);
+        }else if($functions->prgm_name == 'decrease_to_waist_4_front'){
+            $functionName = decrease_to_waist_4_front($assArray, $snippets->factor_value);
+        }else if($functions->prgm_name == 'decrease_to_waist_4_back'){
+            $functionName = decrease_to_waist_4_back($assArray, $snippets->factor_value);
+        }else if($functions->prgm_name == 'increase_to_bust_1_front'){
+            $functionName = increase_to_bust_1_front($assArray);
+        }else if($functions->prgm_name == 'increase_to_back_1_back'){
+            $functionName = increase_to_back_1_back($assArray);
+        }else if($functions->prgm_name == 'increase_to_bust_2_front'){
+            $functionName = increase_to_bust_2_front($assArray);
+        }else if($functions->prgm_name == 'increase_to_back_2_back'){
+            $functionName = increase_to_back_2_back($assArray);
+        }else if($functions->prgm_name == 'increase_to_bust_3_front'){
+            $functionName = increase_to_bust_3_front($assArray);
+        }else if($functions->prgm_name == 'increase_to_back_3_back'){
+            $functionName = increase_to_back_3_back($assArray);
+        }else if($functions->prgm_name == 'increase_to_bust_4_left_front'){
+            $functionName = increase_to_bust_4_left_front($assArray);
+        }else if($functions->prgm_name == 'increase_to_bust_4_right_front'){
+            $functionName = increase_to_bust_4_right_front($assArray);
+        }else if($functions->prgm_name == 'increase_to_back_4_back'){
+            $functionName = increase_to_back_4_back($assArray);
+        }else if($functions->prgm_name == 'shoulder_shaping_1'){ // shoulder bind off;
+            $functionName = shoulder_shaping_1($assArray);
+        }else if($functions->prgm_name == 'shoulder_shaping_2'){ // shoulder bind off;
+            $functionName = shoulder_shaping_2($assArray);
+        }else if($functions->prgm_name == 'shoulder_shaping_3'){ // shoulder bind off;
+            $functionName = shoulder_shaping_3($assArray);
+        }else if($functions->prgm_name == 'shoulder_shaping_4'){ // shoulder bind off;
+            $functionName = shoulder_shaping_4($assArray);
+        }else if($functions->prgm_name == 'sleeve_cast_on_1'){ // Sleeve cast on;
+            $functionName = sleeve_cast_on_1($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cast_on_2'){ // Sleeve cast on;
+            $functionName = sleeve_cast_on_2($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cast_on_3'){ // Sleeve cast on;
+            $functionName = sleeve_cast_on_3($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cast_on_4'){ // Sleeve cast on;
+            $functionName = sleeve_cast_on_4($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'increase_to_forearm_1'){ // Increase to forearm;
+            $functionName = increase_to_forearm_1($assArray);
+        }else if($functions->prgm_name == 'increase_to_forearm_2'){ // Increase to forearm;
+            $functionName = increase_to_forearm_2($assArray);
+        }else if($functions->prgm_name == 'increase_to_forearm_3'){ // Increase to forearm;
+            $functionName = increase_to_forearm_3($assArray);
+        }else if($functions->prgm_name == 'increase_to_forearm_4'){ // Increase to forearm;
+            $functionName = increase_to_forearm_4($assArray);
+        }else if($functions->prgm_name == 'increase_to_upperarm_1'){ // Increase to upperarm;
+            $functionName = increase_to_upperarm_1($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'increase_to_upperarm_2'){ // Increase to upperarm;
+            $functionName = increase_to_upperarm_2($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'increase_to_upperarm_3'){ // Increase to upperarm;
+            $functionName = increase_to_upperarm_3($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'increase_to_upperarm_4'){ // Increase to upperarm;
+            $functionName = increase_to_upperarm_4($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'armhole_shaping_1'){ // Increase to upperarm;
+            $functionName = armhole_shaping_1($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'armhole_shaping_2'){ // Increase to upperarm;
+            $functionName = armhole_shaping_2($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'armhole_shaping_3_front'){ // Increase to upperarm;
+            $functionName = armhole_shaping_3_front($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'armhole_shaping_3_back'){ // Increase to upperarm;
+            $functionName = armhole_shaping_3_back($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'armhole_shaping_4_front'){ // Increase to upperarm;
+            $functionName = armhole_shaping_4_front($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'armhole_shaping_4_back'){ // Increase to upperarm;
+            $functionName = armhole_shaping_4_back($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cap_shaping_1'){ // Increase to upperarm;
+            $functionName = sleeve_cap_shaping_1($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cap_shaping_2'){ // Increase to upperarm;
+            $functionName = sleeve_cap_shaping_2($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cap_shaping_3'){ // Increase to upperarm;
+            $functionName = sleeve_cap_shaping_3($assArray,$snippets->factor_value);
+        }else if($functions->prgm_name == 'sleeve_cap_shaping_4'){ // Increase to upperarm;
+            $functionName = sleeve_cap_shaping_4($assArray,$snippets->factor_value);
+        }
+
+        $function = unserialize($functionName);
+
+
+        //print_r($function);
+       /* if(is_array($functionName)){
+            for($ar=0;$ar<count($functionName);$ar++){
+                $baseInstruction = str_replace($outputs[$ar],$functionName[$ar],$baseInstruction);
+            }
+        }else{
+            $baseInstruction = str_replace($outputs,$functionName,$baseInstruction);
+        }*/
+    $condition = App\Models\Patterns\ConditionalStatement::where('id',$function['condition_id'])->first();
+
+    $baseInstruction = $condition->base_instructions;
+
+    $sinstructions = DB::table('p_snippet_instructions')->where('snippets_id',$snippets->id)->where('conditional_statements_id',$condition->id)->get();
+   @endphp
+
+      @if($sinstructions->count() > 0)
+                            <?php $pi=1; ?>
+        @foreach($sinstructions as $inst)
+            @php
+                $instructions = App\Models\Patterns\Instructions::where('id',$inst->instructions_id)->get();
+            @endphp
+
+            @foreach($instructions as $ins)
+
+                <?php
+                $var1 = '[[PART-'.$pi.']]';
+                $baseInstruction = str_replace($var1,$ins->description,$baseInstruction);
+                ?>
+            @endforeach
+                                    <?php $pi++; ?>
+        @endforeach
+      @endif
+
+                    <?php
+                        for ($o=0;$o<count($outputs1);$o++){
+                            $out = $outputs1[$o];
+                            $functionOut = isset($function[$out]) ? $function[$out] : 0;
+                            //echo $outputs1[$o].' -- '.$out.' -- '.$functionOut."<br>";
+                            $baseInstruction = str_replace($outputs[$o],$functionOut,$baseInstruction);
+                        }
+                    ?>
+                      <div>{!! $baseInstruction !!}</div>
+                        @endif <!-- function id != 0 -->
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    @endforeach
+@endif

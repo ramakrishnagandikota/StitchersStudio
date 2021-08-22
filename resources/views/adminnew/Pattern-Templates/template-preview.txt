@@ -1,0 +1,200 @@
+<?php $inputs1 = array(); $inputs2 = array(); ?>
+@if($measurements->count() > 0)
+    @foreach($measurements as $meas)
+        @php
+            $measurementvalues = App\Models\Patterns\MeasurementValues::where('measurement_profile_id',$measurement_id)->where('measurement_variable_id',$meas->id)->first();
+            $inp = strtolower($meas->variable_name);
+            $inputs1[] = str_replace(' ','_',$inp);
+            $inputs2[] = $measurementvalues->measurement_value;
+        @endphp
+    @endforeach
+@endif
+<?php
+if(count($inputs1) == count($inputs2)) {
+    $assArray = array();
+    for($i=0;$i<count($inputs1);$i++) {
+        $assArray[$inputs1[$i]] = $inputs2[$i];
+    }
+}
+?>
+<!-- {{ print_r($assArray) }} -->
+@if($template->getAllSections()->count() > 0)
+    @foreach($template->getAllSections as $sections1)
+        @if($sections1->snippets()->count() > 0)
+            @foreach($sections1->snippets as $snippet1)
+                @php
+                    $functions = App\Models\Patterns\Functions::where('id',$snippet1->function_id)->first();
+                @endphp
+                <!--
+   @if($functions->prgm_name == 'cast_on_1')
+                    Test 1 cast on {{ cast_on_1($assArray,$snippet1->factor_value,$snippet1->modifier_value,'a') }}
+                @endif
+
+                @if($functions->prgm_name == 'decrease_to_waist_1')
+                    NO
+@endif
+                    -->
+            @endforeach
+        @endif
+    @endforeach
+@endif
+<!------------------------------------------------------------------>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <h5 class="p-10 text-center">
+            {{ $template->template_name }}
+        </h5>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="row theme-row m-b-10">
+        <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection1-preview">
+            <h5 class="card-header-text">Description</h5>
+            <i class="fa fa-caret-down pull-right micro-icons"></i>
+        </div>
+    </div>
+    <div class="card-block collapse show" id="PTsection1-preview">
+        <div class="col-lg-12">
+            {!! $template->description ?? 'No description to show' !!}
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-md-12">
+    <div class="row theme-row m-b-10">
+        <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection2-preview">
+            <h5 class="card-header-text">Materials</h5>
+            <i class="fa fa-caret-down pull-right micro-icons"></i>
+        </div>
+    </div>
+    <div class="card-block collapse show" id="PTsection2-preview">
+        <div class="col-lg-12">
+            {!! $template->materials ?? 'No materials to show' !!}
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-md-12">
+    <div class="row theme-row m-b-10">
+        <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection3-preview">
+            <h5 class="card-header-text">Techniques</h5>
+            <i class="fa fa-caret-down pull-right micro-icons"></i>
+        </div>
+    </div>
+    <div class="card-block collapse show" id="PTsection3-preview">
+        <div class="col-lg-12">
+            {!! $template->techniques ?? 'No techniques to show' !!}
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+@if($template->getAllSections()->count() > 0)
+    @foreach($template->getAllSections as $sections)
+        <div class="col-md-12">
+            <div class="row theme-row m-b-10">
+                <div class="card-header accordion active col-lg-12 col-sm-12" data-toggle="collapse" data-target="#PTsection3{{$sections->id}}-preview">
+                    <h5 class="card-header-text">{{ $sections->section_name }}</h5>
+                    <i class="fa fa-caret-down pull-right micro-icons"></i>
+                </div>
+            </div>
+            <div class="card-block collapse show" id="PTsection3{{$sections->id}}-preview">
+                @if($sections->snippets()->count() > 0)
+                    @foreach($sections->snippets as $snippets)
+
+                        @if($snippets->snippetConditionalStatements()->count() > 0)
+                            @foreach($snippets->snippetConditionalStatements as $conditions)
+
+                               <!-- <h5 class="theme-light-row">{!! $conditions->description !!} :- {!! $conditions->statement_description !!}</h5> -->
+
+                                <!--<ul class="list-unstyled m-b-10" style="margin-left: 10px;" id="cond_instruction"> -->
+                                    @php
+                                        $inst = $conditions->base_instructions;
+                                        $array = array('[[PART-1]]','[[PART-2]]','[[PART-3]]','[[PART-4]]','[[PART-5]]','[[PART-6]]','[[PART-7]]','[[PART-8]]','[[PART-9]]','[[PART-10]]','[[PART-11]]','[[PART-12]]','[[PART-13]]','[[PART-14]]');
+                                        $array1 = array('<span class="text-danger">[[PART-1]]</span>','<span class="text-danger">[[PART-2]]</span>','<span class="text-danger">[[PART-3]]</span>','<span class="text-danger">[[PART-4]]</span>','<span class="text-danger">[[PART-5]]</span>','<span class="text-danger">[[PART-6]]</span>','<span class="text-danger">[[PART-7]]</span>','<span class="text-danger">[[PART-8]]</span>','<span class="text-danger">[[PART-9]]</span>','<span class="text-danger">[[PART-10]]</span>','<span class="text-danger">[[PART-11]]</span>','<span class="text-danger">[[PART-12]]</span>','<span class="text-danger">[[PART-13]]</span>','<span class="text-danger">[[PART-14]]</span>');
+                                        $res = str_replace($array,$array1,$inst);
+                                    @endphp
+                                    <!--<li class="desc"><b>Instruction :- </b>{!! $res !!}</li>
+                                </ul> -->
+
+                                @php
+                                    $sinstructions = DB::table('p_snippet_instructions')->where('snippets_id',$snippets->id)->where('conditional_statements_id',$conditions->id)->get();
+                                    //$res1 = array();
+                                    $var1 = array();
+                                    $baseInstruction = $conditions->base_instructions;
+                                @endphp
+
+                            <?php $pi=1; ?>
+                                @foreach($sinstructions as $inst)
+                                    @php
+                                        $instructions = App\Models\Patterns\Instructions::where('id',$inst->instructions_id)->first();
+                                        $var1 = '[[PART-'.$pi.']]';
+                                        $bi = $instructions->description;
+                                        $baseInstruction = str_replace($var1,$bi,$baseInstruction);
+                                    @endphp
+                                    <?php $pi++; ?>
+                                @endforeach
+
+
+
+
+                            @endforeach
+
+
+                                @php
+                                    $allFunctions = App\Models\Patterns\Functions::where('id',$snippets->function_id)->get();
+                                @endphp
+                                @foreach($allFunctions as $functions)
+                                    {{ $functions->prgm_name }} <br>
+                                    @php
+                                        if($functions->prgm_name == 'cast_on_1'){
+                                            $functionName = cast_on_1($assArray, $snippets->factor_value, $snippets->modifier_value);
+                                            $outputs = array("[[NO_OF_STITCHES_TO_CAST_ON]]");
+                                        }else if($functions->prgm_name == 'cast_on_2'){
+                                            $functionName = cast_on_2($assArray, $snippets->factor_value, $snippets->modifier_value);
+                                            $outputs = array('[[NO_OF_STITCHES_TO_CAST_ON_BACK]]','[[NO_OF_STITCHES_TO_CAST_ON_FRONT]]');
+                                        }else if($functions->prgm_name == 'cast_on_3'){ /* $functions->prgm_name == 'cast_on_3' */
+                                            $functionName = cast_on_3($assArray, $snippets->factor_value, $snippets->modifier_value);
+                                            $outputs = array('[[NO_OF_STITCHES_TO_CAST_ON_BACK]]','[[NO_OF_STITCHES_TO_CAST_ON_FRONT]]');
+                                        }else if($functions->prgm_name == 'place_markers_side_markers_1'){
+                                            $functionName = place_markers_side_markers_1($assArray, $snippets->factor_value, $snippets->modifier_value);
+                                            $outputs = array("[[SIDE_MARKER]]",'[[SIDE_MARKER_FRONT]]');
+                                        }else if($functions->prgm_name == 'decrease_to_waist_1'){
+                                            $functionName = decrease_to_waist_1($assArray, $snippets->factor_value);
+                                            $outputs = array('[[DECREASE_EVERY_N_ROWS_WAIST]]','[[NO_OF_TIMES_TO_DECREASE_WAIST]]','[[INCREASE_EVERY_N_ROWS_WAIST]]','[[NO_OF_TIMES_TO_INCREASE_TO_WAIST]]');
+                                        }else if($functions->prgm_name == 'decrease_to_waist_2'){
+
+                                        }else if($functions->prgm_name == 'decrease_to_waist_3'){
+
+                                        }
+
+
+
+                                        if(is_array($functionName)){
+                                            for($ar=0;$ar<count($functionName);$ar++){
+                                                $baseInstruction = str_replace($outputs[$ar],$functionName[$ar],$baseInstruction);
+                                            }
+                                        }else{
+                                            $baseInstruction = str_replace($outputs,$functionName,$baseInstruction);
+                                        }
+
+
+                                    @endphp
+
+                                {{ print_r($functionName) }}
+                                    {{ print_r($outputs) }}
+
+
+
+                                @endforeach
+
+
+                                {!! $baseInstruction !!}<br>
+
+
+                        @endif
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    @endforeach
+@endif
